@@ -8,6 +8,17 @@ class SNDCell: UICollectionViewCell {
             backgroundColor = UIColor.orange
         }
     }
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                let view = UIView()
+                view.backgroundColor = UIColor.red
+                selectedBackgroundView = view
+            } else {
+                selectedBackgroundView = nil
+            }
+        }
+    }
 }
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -51,11 +62,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         cell.isSelected = true
-        
-        let view = UIView()
-        view.backgroundColor = UIColor.red
-
-        cell.selectedBackgroundView = view
     }
 
 }
