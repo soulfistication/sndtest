@@ -1,15 +1,11 @@
 import UIKit
 
-class SNDCell: UITableViewCell {
-    override var isSelected: Bool {
-        didSet {
-            if self.isSelected {
-                let background = UIView()
-                background.backgroundColor = UIColor.red
-                self.selectedBackgroundView = background
-            } else {
-                self.selectedBackgroundView = nil
-            }
+class SNDCell: UICollectionViewCell {
+    public func setup(indexPath: IndexPath) {
+        if indexPath.row % 2 == 0 {
+            backgroundColor = UIColor.cyan
+        } else {
+            backgroundColor = UIColor.orange
         }
     }
 }
@@ -24,6 +20,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        collectionView.allowsSelection = true
+        collectionView.allowsMultipleSelection = false
     }
     
     // MARK: - UICollectionView Data source
@@ -37,18 +36,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-     
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = UIColor.cyan
-        } else {
-            cell.backgroundColor = UIColor.orange
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? SNDCell else {
+            fatalError("CollectionView dequeued a wrong cell.")
         }
-
-        if cell.isSelected {
-            cell.selectedBackgroundView?.backgroundColor = UIColor.red
-        }
+        
+        cell.setup(indexPath: indexPath)
         
         return cell
     }
@@ -56,9 +49,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // MARK: - UICollectionView Delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
         cell.isSelected = true
-        collectionView.reloadItems(at: [indexPath])
+        
+        let view = UIView()
+        view.backgroundColor = UIColor.red
+
+        cell.selectedBackgroundView = view
     }
 
 }
