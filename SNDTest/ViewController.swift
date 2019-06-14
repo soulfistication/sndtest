@@ -61,7 +61,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-        cell.isSelected = true
+
+        if cell.isSelected {
+            cell.isSelected = false
+        } else {
+            cell.isSelected = true
+        }
     }
 
 }
