@@ -1,12 +1,18 @@
-//
-//  ViewController.swift
-//  SNDTest
-//
-//  Created by MacBook Pro on 6/13/19.
-//  Copyright © 2019 Ivan. All rights reserved.
-//
-
 import UIKit
+
+class SNDCell: UITableViewCell {
+    override var isSelected: Bool {
+        didSet {
+            if self.isSelected {
+                let background = UIView()
+                background.backgroundColor = UIColor.red
+                self.selectedBackgroundView = background
+            } else {
+                self.selectedBackgroundView = nil
+            }
+        }
+    }
+}
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
